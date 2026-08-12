@@ -162,6 +162,15 @@
         <entry name="fullViewMaxWidth" type="Int">
             <default>300</default>
         </entry>
+        <entry name="fullViewFixedThumbnailHeight" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="fullViewThumbnailHeight" type="Int">
+            <default>250</default>
+        </entry>
+        <entry name="fullViewThumbnailBlurBackground" type="Bool">
+            <default>false</default>
+        </entry>
 		<entry name="fullAlbumCoverRounded" type="Bool">
 			<default>true</default>
 		</entry>

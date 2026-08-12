@@ -34,6 +34,9 @@ Item {
     // The Full View max and min width is driven by config values. The window can be resized within these bounds; thumbnail and text adapt.
     readonly property int configMinWidth: plasmoid.configuration.fullViewMinWidth
     readonly property int maximumWidth: plasmoid.configuration.fullViewMaxWidth
+    readonly property bool fixedThumbnailHeight: plasmoid.configuration.fullViewFixedThumbnailHeight
+    readonly property int configThumbnailHeight: plasmoid.configuration.fullViewThumbnailHeight
+    readonly property bool thumbnailBlurBackground: plasmoid.configuration.fullViewThumbnailBlurBackground
     property bool fullAlbumCoverRounded: plasmoid.configuration.fullAlbumCoverRounded
     property int albumCoverRadius: plasmoid.configuration.fullAlbumCoverRadius
 
@@ -183,7 +186,7 @@ Item {
             readonly property real imageRatio: albumArtNormal.implicitWidth > 0 && albumArtNormal.implicitHeight > 0
                 ? albumArtNormal.implicitWidth / albumArtNormal.implicitHeight
                 : 1.0
-            Layout.preferredHeight: thumbnailVisible ? width / imageRatio : 0
+            Layout.preferredHeight: thumbnailVisible ? (fixedThumbnailHeight ? configThumbnailHeight : width / imageRatio) : 0
             color: 'transparent'
 
             PlasmaComponents3.ToolTip {
@@ -201,6 +204,37 @@ Item {
                     if (player.canRaise) player.raise()
                 }
                 hoverEnabled: true
+            }
+
+            Item {
+                anchors.fill: parent
+                visible: thumbnailBlurBackground && !albumCoverBackground && player.artUrl != ""
+                layer.enabled: root.fullAlbumCoverRounded && root.albumCoverRadius > 0
+                layer.effect: OpacityMask {
+                    maskSource: Item {
+                        width: thumbnailBlur.width
+                        height: thumbnailBlur.height
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: albumCoverRadius
+                        }
+                    }
+                }
+
+                ImageWithPlaceholder {
+                    id: thumbnailBlur
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectCrop
+
+                    placeholderSource: albumPlaceholder
+                    imageSource: player.artUrl
+
+                    layer.enabled: true
+                    layer.effect: FastBlur {
+                        radius: 32
+                        cached: true
+                    }
+                }
             }
 
             ImageWithPlaceholder {

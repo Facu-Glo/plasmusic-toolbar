@@ -34,6 +34,9 @@ KCM.SimpleKCM {
     property alias cfg_fullViewMinWidth: fullViewMinWidth.value
     property alias cfg_fullViewMaxWidth: fullViewMaxWidth.value
     property alias cfg_showPlayerSelector: showPlayerSelector.checked
+    property alias cfg_fullViewFixedThumbnailHeight: fullViewFixedThumbnailHeight.checked
+    property alias cfg_fullViewThumbnailHeight: fullViewThumbnailHeight.value
+    property alias cfg_fullViewThumbnailBlurBackground: fullViewBlurBackground.checked
     property alias cfg_fullAlbumCoverRounded: fullAlbumCoverRounded.checked
     property alias cfg_fullAlbumCoverRadius: fullAlbumCoverRadius.value
     property alias cfg_hideCanBeRaisedTooltip: hideCanBeRaisedTooltip.checked
@@ -179,6 +182,39 @@ KCM.SimpleKCM {
             from: fullViewMinWidth.value
             to: 2000
             stepSize: 10
+        }
+
+        RowLayout{
+            Kirigami.FormData.label: i18n("Fixed thumbnail height")
+            CheckBox {
+                id: fullViewFixedThumbnailHeight
+            }
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n(
+                    "Keeps the widget height stable when switching between players with different album art aspect ratios (e.g. Spotify vs browser videos). The image is shown complete, with empty space when it doesn't match."
+                )
+            }
+        }
+
+        SpinBox {
+            id: fullViewThumbnailHeight
+            Kirigami.FormData.label: i18n("Thumbnail height:")
+            from: 50
+            to: 600
+            stepSize: 10
+            enabled: fullViewFixedThumbnailHeight.checked
+        }
+
+        RowLayout{
+            Kirigami.FormData.label: i18n("Blur background behind thumbnail")
+            CheckBox {
+                id: fullViewBlurBackground
+            }
+            Kirigami.ContextualHelpButton {
+                toolTipText: i18n(
+                    "Shows a blurred version of the album art behind the thumbnail to fill empty space when the image aspect ratio doesn't match the thumbnail area."
+                )
+            }
         }
 
         RowLayout{
