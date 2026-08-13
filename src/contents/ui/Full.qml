@@ -55,6 +55,65 @@ Item {
     readonly property color _originalTextColor: Kirigami.Theme.textColor
     readonly property color _originalHighlightColor: Kirigami.Theme.highlightColor
 
+    // Grab keyboard focus so shortcuts work when the full view opens
+    focus: true
+    Component.onCompleted: forceActiveFocus()
+    onVisibleChanged: {
+        if (visible) forceActiveFocus()
+    }
+
+    // Keyboard shortcuts, configurable from the settings.
+    // These are active only while the full view is open.
+    Shortcut {
+        sequence: plasmoid.configuration.shortcutPlayPause
+        context: Qt.WindowShortcut
+        enabled: player.ready
+        onActivated: player.playPause()
+    }
+
+    Shortcut {
+        sequence: plasmoid.configuration.shortcutSourceAuto
+        context: Qt.WindowShortcut
+        enabled: player.sourceIdentities == null
+        onActivated: switchToSource(0)
+    }
+
+    Shortcut {
+        sequence: plasmoid.configuration.shortcutSource1
+        context: Qt.WindowShortcut
+        enabled: player.sourceIdentities == null
+        onActivated: switchToSource(1)
+    }
+
+    Shortcut {
+        sequence: plasmoid.configuration.shortcutSource2
+        context: Qt.WindowShortcut
+        enabled: player.sourceIdentities == null
+        onActivated: switchToSource(2)
+    }
+
+    Shortcut {
+        sequence: plasmoid.configuration.shortcutSource3
+        context: Qt.WindowShortcut
+        enabled: player.sourceIdentities == null
+        onActivated: switchToSource(3)
+    }
+
+    Shortcut {
+        sequence: plasmoid.configuration.shortcutSource4
+        context: Qt.WindowShortcut
+        enabled: player.sourceIdentities == null
+        onActivated: switchToSource(4)
+    }
+
+    function switchToSource(sourceNumber) {
+        // Row 0 of the MPRIS model is the automatic/multiplexer source
+        if (sourceNumber >= player.mpris2Model.rowCount()) {
+            return
+        }
+        player.mpris2Model.currentIndex = sourceNumber
+    }
+
     Item {
         visible: albumCoverBackground && thumbnailVisible
         Layout.margins: 0

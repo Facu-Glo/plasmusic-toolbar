@@ -5,6 +5,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.kcmutils as KCM
+import org.kde.kquickcontrols
 import QtQuick.Dialogs as QtDialogs
 import org.kde.plasma.core as PlasmaCore
 
@@ -40,6 +41,12 @@ KCM.SimpleKCM {
     property alias cfg_fullAlbumCoverRounded: fullAlbumCoverRounded.checked
     property alias cfg_fullAlbumCoverRadius: fullAlbumCoverRadius.value
     property alias cfg_hideCanBeRaisedTooltip: hideCanBeRaisedTooltip.checked
+    property alias cfg_shortcutPlayPause: playPauseShortcut.keySequence
+    property alias cfg_shortcutSourceAuto: sourceAutoShortcut.keySequence
+    property alias cfg_shortcutSource1: source1Shortcut.keySequence
+    property alias cfg_shortcutSource2: source2Shortcut.keySequence
+    property alias cfg_shortcutSource3: source3Shortcut.keySequence
+    property alias cfg_shortcutSource4: source4Shortcut.keySequence
 
     Kirigami.FormLayout {
         id: form
@@ -515,6 +522,60 @@ KCM.SimpleKCM {
         CheckBox{
             id: hideCanBeRaisedTooltip
             Kirigami.FormData.label: i18n("Hide album art tooltip")
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: i18n("Keyboard shortcuts")
+        }
+
+        Label {
+            Layout.fillWidth: true
+            Layout.maximumWidth: 10 * Kirigami.Units.gridUnit
+            wrapMode: Text.WordWrap
+            text: i18n("These shortcuts work while the full view is open. To record a shortcut, click on the button and press the desired keys.")
+        }
+
+        KeySequenceItem {
+            id: playPauseShortcut
+            Kirigami.FormData.label: i18n("Play/Pause:")
+            patterns: ShortcutPattern.Key | ShortcutPattern.ModifierAndKey
+            checkForConflictsAgainst: ShortcutType.None
+        }
+
+        KeySequenceItem {
+            id: sourceAutoShortcut
+            Kirigami.FormData.label: i18n("Automatic player selection:")
+            patterns: ShortcutPattern.Key | ShortcutPattern.ModifierAndKey
+            checkForConflictsAgainst: ShortcutType.None
+        }
+
+        KeySequenceItem {
+            id: source1Shortcut
+            Kirigami.FormData.label: i18n("Player 1:")
+            patterns: ShortcutPattern.Key | ShortcutPattern.ModifierAndKey
+            checkForConflictsAgainst: ShortcutType.None
+        }
+
+        KeySequenceItem {
+            id: source2Shortcut
+            Kirigami.FormData.label: i18n("Player 2:")
+            patterns: ShortcutPattern.Key | ShortcutPattern.ModifierAndKey
+            checkForConflictsAgainst: ShortcutType.None
+        }
+
+        KeySequenceItem {
+            id: source3Shortcut
+            Kirigami.FormData.label: i18n("Player 3:")
+            patterns: ShortcutPattern.Key | ShortcutPattern.ModifierAndKey
+            checkForConflictsAgainst: ShortcutType.None
+        }
+
+        KeySequenceItem {
+            id: source4Shortcut
+            Kirigami.FormData.label: i18n("Player 4:")
+            patterns: ShortcutPattern.Key | ShortcutPattern.ModifierAndKey
+            checkForConflictsAgainst: ShortcutType.None
         }
     }
 
